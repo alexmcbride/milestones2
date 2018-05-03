@@ -3,12 +3,12 @@ extends ../layout
 block content
   h2 Projects
   p
-    a(href='/create') Create Project
+    a(href='/projects/create') Create Project
   ul.list-group
     each project in projects
       li.list-group-item
-        a(href='/' + project._id)= project.name
+        a(href='/projects/' + project._id)= project.name
         span &nbsp;|&nbsp;
-        a(href='/edit/' + project._id) Edit
+        a(href='/projects/edit/' + project._id) Edit
         span &nbsp;|&nbsp;
-        a(href='/delete/' + project._id) Delete
+        a(href='/projects/delete/' + project._id) Delete
