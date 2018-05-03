@@ -4,11 +4,15 @@ var projectdb = require('../models/project');
 var { body, validationResult } = require('express-validator/check');
 var { sanitizeBody } = require('express-validator/filter');
 
-var validations = [body('name', 'Empty name').isLength({ min: 1 })];
+// Validation rules.
+var validations = [
+    body('name', 'Name cannot be blank').isLength({ min: 1 }),
+    body('name', 'Name cannot be longer than 30 characters').isLength({ max: 30 })
+];
 
 /* GET create project form */
 router.get('/create', function (req, res) {
-    res.render('projects/create');
+    res.render('projects/create', {project: {name: ''}});
 });
 
 /* POST create project */
@@ -20,7 +24,8 @@ router.post('/create', validations, function (req, res, next) {
         });
     }
     else {
-        res.render('projects/create', { errors: errors.mapped() });
+        var project = { name: req.body.name };
+        res.render('projects/create', { project: project, errors: errors.mapped() });
     }
 });
 
