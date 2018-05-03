@@ -7,4 +7,8 @@ block content
   ul.list-group
     each project in projects
       li.list-group-item
-        a(href='/projects/' + project._id)= project.name
+        a(href='/' + project._id)= project.name
+        span &nbsp;|&nbsp;
+        a(href='/edit/' + project._id) Edit
+        span &nbsp;|&nbsp;
+        a(href='/delete/' + project._id) Delete

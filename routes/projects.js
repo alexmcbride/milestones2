@@ -19,4 +19,34 @@ router.post('/create', function(req, res) {
   });
 });
 
+router.get('/edit/:id', function(req, res) {
+  projectdb.find(req.params.id, function(err, project) {
+    res.render('projects-edit', {project: project});
+  });
+});
+
+router.post('/edit/:id', function(req, res) {
+  projectdb.update(req.params.id, req.body.name, function(err, project) {
+    res.redirect('/');
+  });
+});
+
+router.get('/delete/:id', function(req, res) {
+  projectdb.find(req.params.id, function(err, project) {
+    res.render('projects-delete', {project: project});
+  });
+});
+
+router.post('/delete/:id', function(req, res) {
+  projectdb.delete(req.params.id, function(err, project) {
+    res.redirect('/');
+  });
+});
+
+router.get('/:id', function(req, res) {
+  projectdb.find(req.params.id, function(err, project) {
+    res.render('projects-detail', {project: project});
+  });
+});
+
 module.exports = router;

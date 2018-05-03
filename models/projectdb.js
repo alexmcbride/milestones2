@@ -14,6 +14,15 @@ var projectdb = {
             created: new Date()
         };
         db.projects.insert(project, callback);
+    },
+    update: function(id, name, callback) {
+        var project = {
+            name: name
+        }
+        db.projects.update({_id: mongojs.ObjectId(id)}, project, callback);
+    },
+    delete: function(id, callback) {
+        db.projects.remove({_id: mongojs.ObjectId(id)}, callback);
     }
 };
 

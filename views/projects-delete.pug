@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h2 Delete Project
+  p Are you sure you want to delete this project?
+  p
+    strong= project.name
+  form(method='post')
+    button.btn.btn-primary(type='submit') Delete
+    span &nbsp;|&nbsp;
+    a(href='/') Cancel
