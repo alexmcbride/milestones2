@@ -1,7 +1,7 @@
 var mongojs = require('mongojs')
 var db = mongojs('milestones_db', ['projects'])
 
-var projectdb = {
+var project = {
     findAll: function(callback) {
         db.projects.find(callback);
     },
@@ -26,4 +26,4 @@ var projectdb = {
     }
 };
 
-module.exports = projectdb;
+module.exports = project;

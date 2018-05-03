@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var projectdb = require('../models/projectdb');
+var project = require('../models/project');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  projectdb.findAll(function(err, projects) {
+  project.findAll(function(err, projects) {
     res.render('projects/index', {projects: projects});
   });
 });
