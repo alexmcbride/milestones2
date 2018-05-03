@@ -9,43 +9,50 @@ router.get('/', function(req, res) {
   });
 });
 
+/* GET single project */
+router.get('/:id', function(req, res) {
+  projectdb.find(req.params.id, function(err, project) {
+    res.render('projects-detail', {project: project});
+  });
+});
+
+/* GET create project form */
 router.get('/create', function(req, res) {
   res.render('projects-create');
 });
 
+/* POST create project */
 router.post('/create', function(req, res) {
   projectdb.create(req.body.name, function(err, project) {
     res.redirect('/');
   });
 });
 
+/* GET edit project form */
 router.get('/edit/:id', function(req, res) {
   projectdb.find(req.params.id, function(err, project) {
     res.render('projects-edit', {project: project});
   });
 });
 
+/* POST edit project */
 router.post('/edit/:id', function(req, res) {
   projectdb.update(req.params.id, req.body.name, function(err, project) {
     res.redirect('/');
   });
 });
 
+/* GET delete project form */
 router.get('/delete/:id', function(req, res) {
   projectdb.find(req.params.id, function(err, project) {
     res.render('projects-delete', {project: project});
   });
 });
 
+/* POST delete project */
 router.post('/delete/:id', function(req, res) {
   projectdb.delete(req.params.id, function(err, project) {
     res.redirect('/');
-  });
-});
-
-router.get('/:id', function(req, res) {
-  projectdb.find(req.params.id, function(err, project) {
-    res.render('projects-detail', {project: project});
   });
 });
 
