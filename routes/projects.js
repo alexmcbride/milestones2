@@ -9,13 +9,6 @@ router.get('/', function(req, res) {
   });
 });
 
-/* GET single project */
-router.get('/:id', function(req, res) {
-  projectdb.find(req.params.id, function(err, project) {
-    res.render('projects-detail', {project: project});
-  });
-});
-
 /* GET create project form */
 router.get('/create', function(req, res) {
   res.render('projects-create');
@@ -53,6 +46,13 @@ router.get('/delete/:id', function(req, res) {
 router.post('/delete/:id', function(req, res) {
   projectdb.delete(req.params.id, function(err, project) {
     res.redirect('/');
+  });
+});
+
+/* GET single project */
+router.get('/:id', function(req, res) {
+  projectdb.find(req.params.id, function(err, project) {
+    res.render('projects-detail', {project: project});
   });
 });
 
