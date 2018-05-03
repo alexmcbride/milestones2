@@ -3,6 +3,10 @@ extends ../layout
 block content
   h2 Create Project
   p Enter a name to create a new project
+  if errors
+    ul
+      each error in errors
+        li= error.msg
   form(method='post')
     div.form-group
         label(for='name') Name
