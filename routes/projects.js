@@ -5,13 +5,13 @@ var projectdb = require('../models/projectdb');
 /* GET home page. */
 router.get('/', function(req, res) {
   projectdb.findAll(function(err, projects) {
-    res.render('projects', {projects: projects});
+    res.render('projects/index', {projects: projects});
   });
 });
 
 /* GET create project form */
 router.get('/create', function(req, res) {
-  res.render('projects-create');
+  res.render('projects/create');
 });
 
 /* POST create project */
@@ -24,7 +24,7 @@ router.post('/create', function(req, res) {
 /* GET edit project form */
 router.get('/edit/:id', function(req, res) {
   projectdb.find(req.params.id, function(err, project) {
-    res.render('projects-edit', {project: project});
+    res.render('projects/edit', {project: project});
   });
 });
 
@@ -38,7 +38,7 @@ router.post('/edit/:id', function(req, res) {
 /* GET delete project form */
 router.get('/delete/:id', function(req, res) {
   projectdb.find(req.params.id, function(err, project) {
-    res.render('projects-delete', {project: project});
+    res.render('projects/delete', {project: project});
   });
 });
 
@@ -52,7 +52,7 @@ router.post('/delete/:id', function(req, res) {
 /* GET single project */
 router.get('/:id', function(req, res) {
   projectdb.find(req.params.id, function(err, project) {
-    res.render('projects-detail', {project: project});
+    res.render('projects/details', {project: project});
   });
 });
 
