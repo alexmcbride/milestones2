@@ -1,6 +1,6 @@
 var mongojs = require('mongojs');
 var db = mongojs('milestones_db', ['projects']);
-var { body, validationResult } = require('express-validator/check');
+var { body } = require('express-validator/check');
 
 var project = {
     validations: [
@@ -13,17 +13,11 @@ var project = {
     find: function (id, callback) {
         db.projects.findOne({ _id: mongojs.ObjectId(id) }, callback);
     },
-    create: function (name, callback) {
-        var project = {
-            name: name,
-            created: new Date()
-        };
+    create: function (project, callback) {
+        project.created = new Date();
         db.projects.insert(project, callback);
     },
-    update: function (id, name, callback) {
-        var project = {
-            name: name
-        }
+    update: function (id, project, callback) {
         db.projects.update({ _id: mongojs.ObjectId(id) }, project, callback);
     },
     delete: function (id, callback) {

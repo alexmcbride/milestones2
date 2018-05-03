@@ -1,28 +1,24 @@
 var mongojs = require('mongojs')
 var db = mongojs('milestones_db', ['milestones'])
+var { body } = require('express-validator/check');
 
 var milestone = {
+    validations: [
+        body('name', 'Name cannot be blank').isLength({ min: 1 }),
+        body('name', 'Name cannot be longer than 100 characters').isLength({ max: 100 })
+    ],
     findAll: function (callback, projectId) {
         db.milestones.find({ projectId: mongojs.ObjectId(projectId) }, callback);
     },
     find: function (id, callback) {
         db.milestones.findOne({ _id: mongojs.ObjectId(id) }, callback);
     },
-    create: function (projectId, name, due, callback) {
-        var milestone = {
-            projectId: mongojs.ObjectId(projectId),
-            name: name,
-            due: due,
-            created: new Date()
-        };
+    create: function (projectId, milestone, callback) {
+        milestone.projectId = mongojs.ObjectId(projectId);
+        milestone.created = new Date();
         db.milestones.insert(milestone, callback);
     },
-    update: function (id, name, due, completed, callback) {
-        var milestone = {
-            name: name,
-            due: due,
-            completed: completed
-        }
+    update: function (id, milestone, callback) {
         db.milestones.update({ _id: mongojs.ObjectId(id) }, milestone, callback);
     },
     delete: function (id, callback) {

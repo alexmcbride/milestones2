@@ -2,4 +2,5 @@ extends ../layout
 
 block content
   h2= project.name
-  p Milestone list...
+  p
+    a(href='/milestones/create/' + project._id) Create Milestone

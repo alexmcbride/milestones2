@@ -10,14 +10,14 @@ router.get('/create', function (req, res) {
 
 /* POST create project */
 router.post('/create', projectModel.validations, function (req, res, next) {
+    var project = { name: req.body.name };
     var errors = validationResult(req);
     if (errors.isEmpty()) {
-        projectModel.create(req.body.name, function (err, project) {
+        projectModel.create(project, function (err, project) {
             res.redirect('/');
         });
     }
     else {
-        var project = { name: req.body.name };
         res.render('projects/create', { project: project, errors: errors.mapped() });
     }
 });
@@ -31,14 +31,14 @@ router.get('/edit/:id', function (req, res) {
 
 /* POST edit project */
 router.post('/edit/:id', projectModel.validations, function (req, res) {
+    var project = { name: req.body.name };
     var errors = validationResult(req);
     if (errors.isEmpty()) {
-        projectModel.update(req.params.id, req.body.name, function (err, project) {
+        projectModel.update(req.params.id, project, function (err, project) {
             res.redirect('/');
         });
     }
     else {
-        var project = { name: req.body.name };
         res.render('projects/edit', { project: project, errors: errors.mapped() });
     }
 });

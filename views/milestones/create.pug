@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h2 Create Milestone
+  p Enter details for the new milestone
+  if errors
+    ul
+      each error in errors
+        li= error.msg
+  form(method='post')
+    div.form-group
+        label(for='name') Name
+        input.form-control(type='text', name="name", id='name', value=milestone.name)
+    div.text-right
+        button.btn.btn-primary(type='submit') Create Milestone
