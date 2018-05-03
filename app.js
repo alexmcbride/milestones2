@@ -34,10 +34,10 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// configure stuff for development mode.
+// configure development mode
 var env = process.env.NODE_ENV || 'development';
 if ('development' == env) {
-  app.locals.pretty = true;
+  app.locals.pretty = true; // Stop express minifying HTML
 }
 
 // error handler

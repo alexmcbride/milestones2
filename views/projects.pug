@@ -2,4 +2,9 @@ extends layout
 
 block content
   h1 Projects
-  p Welcome to projects page!
+  p
+    a(href='/create') Create Project
+  ul.list-group
+    each project in projects
+      li.list-group-item
+        a(href='/projects/' + project._id)= project.name
