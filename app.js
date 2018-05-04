@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
+var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var projectsRouter = require('./routes/projects');
@@ -11,6 +12,14 @@ var milestonesRouter = require('./routes/milestones');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// mongoose setup
+mongoose.connect('mongodb://localhost/test');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Connection error:'));
+db.once('open', function() {
+  console.log('DB connected!')
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
