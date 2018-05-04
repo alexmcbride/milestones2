@@ -15,13 +15,15 @@ router.post('/create/:projectId', function (req, res) {
     var milestone = new Milestone({
         projectId: projectId, 
         name: req.body.name,
-        due: req.body.due,
-        completed: req.body.due,
-        created: new Date(),
+        due: req.body.due
     });
-    milestone.save(function(err, milestone) {
-        if (err) res.status(500).end(err);
-        res.redirect('/projects/' + projectId);
+    milestone.save(function(err) {
+        if (err) {
+            res.render('milestones/create', { milestone: milestone, errors: err.errors });
+        }
+        else {
+            res.redirect('/projects/' + projectId);
+        }        
     });
 });
 

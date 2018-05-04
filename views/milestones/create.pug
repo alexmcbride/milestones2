@@ -6,7 +6,7 @@ block content
   if errors
     ul
       each error in errors
-        li= error.msg
+        li= error.message
   form(method='post')
     div.form-group
       label(for='name') Name

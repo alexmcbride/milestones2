@@ -6,7 +6,7 @@ var projectSchema = mongoose.Schema({
         type: String,
         required: [true, 'Name cannot be blank'],
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return v && v.length <= 100;
             },
             message: 'Name cannot contain more than 100 characters'
@@ -19,8 +19,8 @@ var projectSchema = mongoose.Schema({
     },
 });
 
-projectSchema.methods.createdPretty = function() {
-    return moment(this.created).format('YYYY/MM/DD HH:mm');
+projectSchema.methods.createdPretty = function () {
+    return moment(this.created).fromNow();
 };
 
 var Project = mongoose.model('Project', projectSchema);

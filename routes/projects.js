@@ -13,7 +13,7 @@ router.post('/create', function (req, res, next) {
     var project = new Project({name: req.body.name});
     project.save(function(err) {
         if (err) {
-            res.render('projects/create', {project: project, errors: err.errors});
+            res.render('projects/create', { project: project, errors: err.errors });
         }
         else {
             res.redirect('/');
@@ -36,8 +36,14 @@ router.post('/edit/:id', function (req, res) {
         if (err) res.status(500).end(err);
         if (!project) res.status(404).end();
         project.name = req.body.name;
-        project.save();
-        res.redirect('/');
+        project.save(function(err) {
+            if (err) {
+                res.render('projects/edit', { project: project, errors: err.errors });
+            }
+            else {
+                res.redirect('/');
+            }
+        });
     });
 });
 
