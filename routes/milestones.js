@@ -1,32 +1,28 @@
 var express = require('express');
 var router = express.Router();
-var milestoneModel = require('../models/milestone');
-var { validationResult } = require('express-validator/check');
+var Milestone = require('../models/milestone');
 
 router.get('/create/:projectId', function (req, res) {
-    var projectId = req.params.projectId;
-    var milestone = { 
-        name: '', 
-        due: new Date().toISOString()
-    };
+
+    var milestone = new Milestone({
+        projectId: req.params.projectId, 
+        due: new Date()});
     res.render('milestones/create', { milestone: milestone });
 });
 
-router.post('/create/:projectId', milestoneModel.validations, function (req, res) {
-    var milestone = { 
+router.post('/create/:projectId', function (req, res) {
+    var projectId = req.params.projectId;
+    var milestone = new Milestone({
+        projectId: projectId, 
         name: req.body.name,
-        due: req.body.due
-    };
-    var errors = validationResult(req);
-    if (errors.isEmpty()) {
-        var projectId = req.params.projectId;
-        milestoneModel.create(projectId, milestone, function (err, milestone) {
-            res.redirect('/projects/' + projectId);
-        });
-    }
-    else {
-        res.render('milestones/create', { milestone: milestone, errors: errors.mapped() });
-    }
+        due: req.body.due,
+        completed: req.body.due,
+        created: new Date(),
+    });
+    milestone.save(function(err, milestone) {
+        if (err) res.status(500).end(err);
+        res.redirect('/projects/' + projectId);
+    });
 });
 
 module.exports = router;
