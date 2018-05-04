@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Project = require('../models/project');
+var Milestone = require('../models/milestone');
 
 /* GET create project form */
 router.get('/create', function (req, res) {
@@ -57,10 +58,14 @@ router.post('/delete/:id', function (req, res) {
 
 /* GET single project */
 router.get('/:id', function (req, res) {
-    Proect.findById(req.params.id, function (err, project) {
+    var id = req.params.id;
+    Project.findById(id, function (err, project) {
         if (err) res.status(500).end(err);
         if (!project) res.status(404).end();
-        res.render('projects/details', { project: project, milestones: [] });
+        Milestone.find({projectId: id}, function(err, milestones) {
+            if (err) res.status(500).end(err);
+            res.render('projects/details', { project: project, milestones: milestones });
+        });
     });
 });
 
