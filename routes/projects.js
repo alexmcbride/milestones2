@@ -10,7 +10,7 @@ router.get('/create', function (req, res) {
 
 /* POST create project */
 router.post('/create', function (req, res, next) {
-    var project = new Project({name: req.body.name, created: new Date()});
+    var project = new Project({name: req.body.name});
     project.save(function(err) {
         if (err) {
             res.render('projects/create', {project: project, errors: err.errors});

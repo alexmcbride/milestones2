@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var moment = require('moment');
 
 var projectSchema = mongoose.Schema({
     name: {
@@ -13,12 +14,13 @@ var projectSchema = mongoose.Schema({
     },
     created: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now
     },
 });
 
 projectSchema.methods.createdPretty = function() {
-    
+    return moment(this.created).format('YYYY/MM/DD HH:mm');
 };
 
 var Project = mongoose.model('Project', projectSchema);
