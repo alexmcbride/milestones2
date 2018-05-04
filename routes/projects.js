@@ -11,9 +11,13 @@ router.get('/create', function (req, res) {
 /* POST create project */
 router.post('/create', function (req, res, next) {
     var project = new Project({name: req.body.name, created: new Date()});
-    project.save(function(err, project) {
-        if (err) res.status(500).end(err);
-        res.redirect('/');
+    project.save(function(err) {
+        if (err) {
+            res.render('projects/create', {project: project, errors: err.errors});
+        }
+        else {
+            res.redirect('/');
+        }
     });
 });
 
