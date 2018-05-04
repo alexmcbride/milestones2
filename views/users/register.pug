@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+    div.row.justify-content-center
+        div.col-6
+            h2 Register
+            p Register as a new user
+            form(method='post')
+                include ../validation-errors.pug
+                div.form-group
+                    label(for='username') Username
+                    input.form-control(type='text', name='username' id='username', value=user.username)
+                div.form-group
+                    label(for='email') Email
+                    input.form-control(type='text', name='email', id='email', value=user.email)
+                div.form-group
+                    label(for='password') Password
+                    input.form-control(type='text', name='password', id='password')         
+                div.form-group
+                    label(for='password-confirm') Confirm Password
+                    input.form-control(type='text', name='password-confirm', id='password-confirm')                       
+                div
+                    button.btn.btn-primary(type='submit') Register
+                    |&nbsp;|&nbsp;
+                    a(href='/') Go back
