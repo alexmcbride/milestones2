@@ -11,5 +11,7 @@ block content
     div.form-group
         label(for='name') Name
         input.form-control(type='text', name="name" id='name', value=project.name)
-    div.text-right
-        button.btn.btn-primary(type='submit') Create Project
+    div
+        button.btn.btn-primary(type='submit') Create
+        |&nbsp;|&nbsp;
+        a(href='/') Go back

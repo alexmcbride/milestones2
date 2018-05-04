@@ -3,12 +3,22 @@ extends ../layout
 block content
   h2 Projects
   p
-    a(href='/projects/create') Create Project
-  ul.list-group
-    each project in projects
-      li.list-group-item
-        a(href='/projects/' + project._id)= project.name
-        span &nbsp;|&nbsp;
-        a(href='/projects/edit/' + project._id) Edit
-        span &nbsp;|&nbsp;
-        a(href='/projects/delete/' + project._id) Delete
+    a(href='/projects/create') Create New Project
+  div.table-responsive
+    table.table
+      thead
+        tr
+          th Name
+          th Created
+          th
+          th
+      tbody
+        each project in projects
+          tr
+            td
+              a(href='/projects/' + project._id)= project.name
+            td= project.created
+            td
+              a(href='/projects/edit/' + project._id) Edit
+            td
+              a(href='/projects/delete/' + project._id) Delete

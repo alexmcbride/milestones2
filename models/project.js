@@ -17,6 +17,10 @@ var projectSchema = mongoose.Schema({
     },
 });
 
+projectSchema.methods.createdPretty = function() {
+    
+};
+
 var Project = mongoose.model('Project', projectSchema);
 
 module.exports = Project;
