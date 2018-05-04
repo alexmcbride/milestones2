@@ -4,3 +4,9 @@ block content
   h2= project.name
   p
     a(href='/milestones/create/' + project._id) Create Milestone
+  h3 Milestones
+  ul.list-group
+    each milestone in milestones
+      li.list-group-item 
+        span= milestone.name 
+        span= milestone.due

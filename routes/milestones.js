@@ -5,11 +5,18 @@ var { validationResult } = require('express-validator/check');
 
 router.get('/create/:projectId', function (req, res) {
     var projectId = req.params.projectId;
-    res.render('milestones/create', { milestone: { name: '' } });
+    var milestone = { 
+        name: '', 
+        due: new Date().toISOString()
+    };
+    res.render('milestones/create', { milestone: milestone });
 });
 
 router.post('/create/:projectId', milestoneModel.validations, function (req, res) {
-    var milestone = { name: req.body.name };
+    var milestone = { 
+        name: req.body.name,
+        due: req.body.due
+    };
     var errors = validationResult(req);
     if (errors.isEmpty()) {
         var projectId = req.params.projectId;

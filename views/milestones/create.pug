@@ -9,7 +9,10 @@ block content
         li= error.msg
   form(method='post')
     div.form-group
-        label(for='name') Name
-        input.form-control(type='text', name="name", id='name', value=milestone.name)
+      label(for='name') Name
+      input.form-control(type='text', name="name", id='name', value=milestone.name)
+    div.form-group
+      label(for='due') Due
+      input.form-control(type='datetime-local', name="due", id='due', value=milestone.due)
     div.text-right
         button.btn.btn-primary(type='submit') Create Milestone

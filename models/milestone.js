@@ -5,9 +5,10 @@ var { body } = require('express-validator/check');
 var milestone = {
     validations: [
         body('name', 'Name cannot be blank').isLength({ min: 1 }),
-        body('name', 'Name cannot be longer than 100 characters').isLength({ max: 100 })
+        body('name', 'Name cannot be longer than 100 characters').isLength({ max: 100 }),
+        body('due', 'Due cannot be invalid').isISO8601()
     ],
-    findAll: function (callback, projectId) {
+    findAll: function (projectId, callback) {
         db.milestones.find({ projectId: mongojs.ObjectId(projectId) }, callback);
     },
     find: function (id, callback) {

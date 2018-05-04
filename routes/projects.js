@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var projectModel = require('../models/project');
+var milestoneModel = require('../models/milestone');
 var { validationResult } = require('express-validator/check');
 
 /* GET create project form */
@@ -59,8 +60,16 @@ router.post('/delete/:id', function (req, res) {
 
 /* GET single project */
 router.get('/:id', function (req, res) {
-    projectModel.find(req.params.id, function (err, project) {
-        res.render('projects/details', { project: project });
+    var projectId = req.params.id;
+    projectModel.find(projectId, function (err, project) {
+        if (project == null) {
+            res.status(404).end();
+        }
+        else {
+            milestoneModel.findAll(projectId, function (err, milestones) {
+                res.render('projects/details', { project: project, milestones: milestones });
+            });
+        }
     });
 });
 
