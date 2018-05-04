@@ -3,11 +3,8 @@ extends ../layout
 block content
   h2 Create Project
   p Enter a name to create a new project
-  if errors
-    ul
-      each error in errors
-        li= error.message
   form(method='post')
+    include ../validation-errors.pug
     div.form-group
         label(for='name') Name
         input.form-control(type='text', name="name" id='name', value=project.name)
