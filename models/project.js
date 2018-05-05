@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 
 var projectSchema = mongoose.Schema({
+    userId: String,
     name: {
         type: String,
         required: [true, 'Name cannot be blank'],

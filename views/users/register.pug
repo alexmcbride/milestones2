@@ -8,18 +8,20 @@ block content
             form(method='post')
                 include ../validation-errors.pug
                 div.form-group
-                    label(for='username') Username
+                    label(for='username') Username *
                     input.form-control(type='text', name='username' id='username', value=user.username)
                 div.form-group
-                    label(for='email') Email
+                    label(for='email') Email *
                     input.form-control(type='email', name='email', id='email', value=user.email)
                 div.form-group
-                    label(for='password') Password
+                    label(for='password') Password *
                     input.form-control(type='password', name='password', id='password')         
                 div.form-group
-                    label(for='passwordConfirm') Confirm Password
+                    label(for='passwordConfirm') Confirm Password*
                     input.form-control(type='password', name='passwordConfirm', id='passwordConfirm')                       
+                p: em
+                    |* Required
                 div
                     button.btn.btn-primary(type='submit') Register
                     |&nbsp;|&nbsp;
-                    a(href='/') Go back
+                    a(href='/users/login') Login

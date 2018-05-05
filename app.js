@@ -6,7 +6,7 @@ var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 var mongoose = require('mongoose');
 var session = require('express-session');
-var UserManager = require('./services/user-manager');
+var UserManager = require('./utils/user-manager');
 
 var indexRouter = require('./routes/index');
 var projectsRouter = require('./routes/projects');
