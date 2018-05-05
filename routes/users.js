@@ -17,6 +17,13 @@ router.post('/login', function (req, res) {
     User.findOne({ email: req.body.email }, function (err, user) {
         if (err) console.log(err);
 
+        var error = function () {
+            res.render('users/login', { 
+                email: req.body.email, 
+                error: 'Email or password is incorrect'
+             });
+        };
+
         if (user) {
             user.auth(req.body.password, function (result) {
                 if (result) {
@@ -24,12 +31,12 @@ router.post('/login', function (req, res) {
                     res.redirect('/');
                 }
                 else {
-                    res.render('users/login', { email: req.body.email, error: 'Password is incorrect' });
+                    error();
                 }
             });
         }
         else {
-            res.render('users/login', { email: req.body.email, error: 'Email address not found' });
+            error();
         }
     });
 });
