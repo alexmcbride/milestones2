@@ -7,11 +7,7 @@ router.get('/', function (req, res) {
     Project.find(function (err, projects) {
         if (err) console.error(err);
 
-        var user = req.session.user;
-
-
-
-        res.render('projects/index', { projects: projects, user: user });
+        res.render('projects/index', { projects: projects, user: req.session.user });
     });
 });
 
