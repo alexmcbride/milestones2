@@ -19,9 +19,10 @@ var projectSchema = mongoose.Schema({
     },
 });
 
-projectSchema.methods.createdPretty = function () {
-    return moment(this.created).fromNow();
-};
+projectSchema.virtual('createdPretty').get(function() {
+    var date = moment(this.created).fromNow();
+    return date.charAt(0).toUpperCase() + date.substr(1);
+});
 
 var Project = mongoose.model('Project', projectSchema);
 

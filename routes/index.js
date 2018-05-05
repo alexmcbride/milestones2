@@ -6,7 +6,12 @@ var Project = require('../models/project');
 router.get('/', function (req, res) {
     Project.find(function (err, projects) {
         if (err) console.error(err);
-        res.render('projects/index', { projects: projects });
+
+        var user = req.session.user;
+
+
+
+        res.render('projects/index', { projects: projects, user: user });
     });
 });
 

@@ -2,25 +2,40 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
+router.get('/', function (req, res) {
+    User.find(function (err, users) {
+        res.render('users/index', { users: users });
+    });
+});
+
 /* GET users listing. */
 router.get('/login', function (req, res, next) {
-    res.render('users/login');
+    res.render('users/login', { email: '' });
 });
 
 router.post('/login', function (req, res) {
-    var user = User.find({email: req.body.email}, function(err, user) {
-        if (user.authenticate(req.body.password)) {
+    User.findOne({ email: req.body.email }, function (err, user) {
+        if (err) console.log(err);
 
+        if (user) {
+            user.auth(req.body.password, function (result) {
+                if (result) {
+                    user.login(req.session);
+                    res.redirect('/');
+                }
+                else {
+                    res.render('users/login', { email: req.body.email, error: 'Password is incorrect' });
+                }
+            });
         }
         else {
-            res.render('users/login', {email: req.body.email, error: 'Email or password are incorrect'});
+            res.render('users/login', { email: req.body.email, error: 'Email address not found' });
         }
     });
 });
 
 router.get('/register', function (req, res) {
-    var user = new User();
-    res.render('users/register', { user: user });
+    res.render('users/register', { user: new User() });
 });
 
 router.post('/register', function (req, res) {
@@ -32,11 +47,17 @@ router.post('/register', function (req, res) {
     });
     user.save(function (err) {
         if (err) {
-            res.render('users/register', { user: user, errors: err.error });
+            res.render('users/register', { user: user, errors: err.errors });
         }
         else {
             res.redirect('/users/login');
         }
+    });
+});
+
+router.post('/logout', function (req, res) {
+    user.logout(req.session, function () {
+        res.redirect('/');
     });
 });
 

@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 var mongoose = require('mongoose');
-var session = require('client-sessions');
+var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var projectsRouter = require('./routes/projects');
@@ -18,9 +18,22 @@ var app = express();
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
-db.once('open', function() {
+db.once('open', function () {
   console.log('DB connected!')
 });
+
+// session setup
+var sess = {
+  secret: 'secret key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {}
+};
+if (app.get('env' === 'production')) {
+  app.set('trust proxy', 1);
+  sess.cookie.secure = true;
+}
+app.use(session(sess));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,12 +50,6 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  cookieName: 'session',
-  secret: 'random_string_goes_here',
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000
-}));
 
 app.use('/', indexRouter);
 app.use('/projects', projectsRouter);
@@ -50,7 +57,7 @@ app.use('/milestones', milestonesRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
@@ -61,7 +68,7 @@ if ('development' == env) {
 }
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

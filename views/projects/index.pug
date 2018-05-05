@@ -17,8 +17,13 @@ block content
           tr
             td
               a(href='/projects/' + project._id)= project.name
-            td= project.createdPretty()
+            td= project.createdPretty
             td
               a(href='/projects/edit/' + project._id) Edit
             td
               a(href='/projects/delete/' + project._id) Delete
+  div
+    if user
+      p Logged in as #{user.username}
+    else
+      p Not logged in
