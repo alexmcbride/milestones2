@@ -6,6 +6,7 @@ var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 var mongoose = require('mongoose');
 var session = require('express-session');
+var UserManager = require('./services/user-manager');
 
 var indexRouter = require('./routes/index');
 var projectsRouter = require('./routes/projects');
@@ -34,6 +35,17 @@ if (app.get('env' === 'production')) {
   sess.cookie.secure = true;
 }
 app.use(session(sess));
+
+// user manager middlewear
+app.use(function(req, res, next) {
+  var userManager = new UserManager(req.session);
+  req.userManager = userManager;
+
+  // make user manager available in views
+  app.locals.userManager = userManager
+
+  next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

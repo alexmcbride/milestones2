@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-bcrypt = require('bcrypt');
 
 var userSchema = mongoose.Schema({
     username: {
@@ -48,29 +47,6 @@ userSchema.path('passwordHash').validate(function (v) {
         this.invalidate('password', 'Password cannot be empty');
     }
 });
-
-// Compare suppied password with one in DB.
-userSchema.methods.auth = function (password, func) {
-    bcrypt.compare(password, this.passwordHash, function (err, res) {
-        if (err) console.log(err);
-        func(res);
-    });
-};
-
-userSchema.methods.login = function (session) {
-    session.user = this;
-}
-
-userSchema.methods.logout = function (session, func) {
-    session.destroy(function (err) {
-        if (err) console.log(err);
-        func();
-    });
-}
-
-userSchema.methods.isLoggedIn = function (session) {
-    return session.user != null;
-}
 
 var User = mongoose.model('User', userSchema);
 

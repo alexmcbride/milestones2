@@ -15,29 +15,25 @@ router.get('/login', function (req, res, next) {
 
 router.post('/login', function (req, res) {
     User.findOne({ email: req.body.email }, function (err, user) {
-        if (err) console.log(err);
-
         var error = function () {
-            res.render('users/login', { 
-                email: req.body.email, 
+            res.render('users/login', {
+                email: req.body.email,
                 error: 'Email or password is incorrect'
-             });
+            });
         };
 
-        if (user) {
-            user.auth(req.body.password, function (result) {
-                if (result) {
-                    user.login(req.session);
-                    res.redirect('/');
-                }
-                else {
-                    error();
-                }
-            });
+        if (!user) {
+            return error();
         }
-        else {
-            error();
-        }
+
+        req.userManager.auth(req.body.password, function (result) {
+            if (!result) {
+                return error();
+            }
+
+            req.userManager.login(user);
+            res.redirect('/');
+        });
     });
 });
 
@@ -63,7 +59,7 @@ router.post('/register', function (req, res) {
 });
 
 router.post('/logout', function (req, res) {
-    user.logout(req.session, function () {
+    req.userManager.logout(function () {
         res.redirect('/');
     });
 });
