@@ -12,7 +12,11 @@ FlashMessages.prototype.hasMessages = function() {
 }
 
 FlashMessages.prototype.getMessages = function() {
-    return this.session.flashMessages;
+    var messages = [];
+    while (this.session.flashMessages.length) {
+        messages.push(this.session.flashMessages.pop());
+    }
+    return messages;
 };
 
 FlashMessages.prototype.clearMessages = function() {
