@@ -66,12 +66,12 @@ router.post('/register', function (req, res) {
 });
 
 /* GET Log user out. */
-router.get('/logout', authorize, function (req, res) {
+router.get('/logout', authorize(), function (req, res) {
     res.render('users/logout');
 });
 
 /* POST Log user out. */
-router.post('/logout', authorize, function (req, res) {
+router.post('/logout', authorize(), function (req, res) {
     req.userManager.logout();
     res.flashMessages.add('You are logged out', 'success');
     res.redirect('/');
