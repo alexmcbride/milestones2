@@ -6,6 +6,7 @@ var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 var mongoose = require('mongoose');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var UserManager = require('./utils/user-manager');
 var FlashMessages = require('./utils/flash-messages');
 
@@ -24,9 +25,14 @@ db.on('error', console.error.bind(console, 'Connection error:'));
 // session setup
 var sess = {
   secret: 'secret key',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {}
+  resave: false, // don't save session if unmodified
+  saveUninitialized: false, // dont' create session until needed
+  cookie: {},
+  store: new MongoStore({ 
+    mongooseConnection: db,
+    autoRemove: 'interval',
+    autoRemoveInterval: 60  // Minutes
+  })
 };
 if (app.get('env' === 'production')) {
   app.set('trust proxy', 1);
@@ -35,7 +41,7 @@ if (app.get('env' === 'production')) {
 app.use(session(sess));
 
 // add middlewear
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var userManager = new UserManager(req.session);
   req.userManager = userManager;
 
