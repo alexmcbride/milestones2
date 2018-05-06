@@ -1,5 +1,5 @@
-* Sessions
-* Flash messages 
 * Milestone CRUD
-* Users (Google)
 * Unit tests
+* Users (validation)
+* Auth in routes
+* Relations (users > projects > milestones)
