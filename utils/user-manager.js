@@ -23,4 +23,8 @@ UserManager.prototype.loggedIn = function () {
     return this.session.user != null;
 }
 
+UserManager.prototype.user = function () {
+    return this.session.user;
+}
+
 module.exports = UserManager;

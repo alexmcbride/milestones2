@@ -43,7 +43,9 @@ app.use(function(req, res, next) {
   res.flashMessages = flashMessages;
 
   // make these available in views
-  app.locals.userManager = userManager
+  app.locals.userManager = userManager;
+  app.locals.user = userManager.user();
+  app.locals.loggedIn = userManager.loggedIn();
   app.locals.flashMessages = flashMessages;
 
   next();

@@ -2,17 +2,19 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
+/* GET users listing. */
 router.get('/', function (req, res) {
     User.find(function (err, users) {
         res.render('users/index', { users: users });
     });
 });
 
-/* GET users listing. */
+/* GET Log user in. */
 router.get('/login', function (req, res, next) {
     res.render('users/login', { email: '' });
 });
 
+/* POST Log user in. */
 router.post('/login', function (req, res) {
     User.findOne({ email: req.body.email }, function (err, user) {
         var error = function () {
@@ -38,10 +40,12 @@ router.post('/login', function (req, res) {
     });
 });
 
+/* GET Register user. */
 router.get('/register', function (req, res) {
     res.render('users/register', { user: new User() });
 });
 
+/* POST Register user. */
 router.post('/register', function (req, res) {
     var user = new User({
         username: req.body.username,
@@ -60,10 +64,12 @@ router.post('/register', function (req, res) {
     });
 });
 
+/* GET Log user out. */
 router.get('/logout', function (req, res) {
     res.render('users/logout');
 });
 
+/* POST Log user out. */
 router.post('/logout', function (req, res) {
     req.userManager.logout();
     res.flashMessages.add('You are logged out', 'success');
