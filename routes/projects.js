@@ -67,9 +67,11 @@ router.post('/delete/:id', authorize('project'), function (req, res) {
     Project.findById(req.params.id, function (err, project) {
         if (err) return res.status(500).end(err);
         if (!project) return res.status(404).end();
-        project.remove();
-        res.flashMessages.add('Project deleted', 'success');
-        res.redirect('/');
+        project.delete(function (err) {
+            if (err) return console.log(err);
+            res.flashMessages.add('Project deleted', 'success');
+            res.redirect('/');
+        });
     });
 });
 

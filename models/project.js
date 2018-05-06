@@ -21,13 +21,13 @@ var projectSchema = mongoose.Schema({
     },
 });
 
-projectSchema.virtual('createdPretty').get(function() {
+projectSchema.virtual('createdPretty').get(function () {
     var date = moment(this.created).fromNow();
     return date.charAt(0).toUpperCase() + date.substr(1);
 });
 
-projectSchema.methods.create = function(done) {
-    // Set this here to avoid 'this' scope isues.
+projectSchema.methods.create = function (done) {
+    // Set here to avoid 'this' scope isues.
     var options = {
         resourceType: 'project',
         resourceId: this._id,
@@ -35,16 +35,25 @@ projectSchema.methods.create = function(done) {
         permissionType: 'owner'
     };
 
-    this.save(function(err) {
+    this.save(function (err) {
         if (err) {
             return done(err);
         }
 
+        // Add a resource for this project
         var resource = new Resource(options);
-        resource.save(function(err) {
+        resource.save(function (err) {
             done(err);
         });
     })
+};
+
+projectSchema.methods.delete = function (done) {
+    this.remove();
+
+    Resource.remove({ resourceId: this._id, resourceType: 'project' }, function (err) {
+        done(err);
+    });
 };
 
 var Project = mongoose.model('Project', projectSchema);
