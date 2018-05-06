@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var moment = require('moment');
-var Permission = require('../models/permission');
+var Resource = require('../models/resource');
 
 var projectSchema = mongoose.Schema({
     userId: String,
@@ -27,7 +27,8 @@ projectSchema.virtual('createdPretty').get(function() {
 });
 
 projectSchema.methods.createProject = function(done) {
-    var perm = {
+    // Set this here to avoid 'this' scope isues.
+    var options = {
         resourceType: 'project',
         resourceId: this._id,
         userId: this.userId,
@@ -39,8 +40,8 @@ projectSchema.methods.createProject = function(done) {
             return done(err);
         }
 
-        var permission = new Permission(perm);
-        permission.save(function(err) {
+        var resource = new Resource(options);
+        resource.save(function(err) {
             done(err);
         });
     })

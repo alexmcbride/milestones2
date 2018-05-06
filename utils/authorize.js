@@ -1,4 +1,4 @@
-var Permission = require('../models/permission');
+var Resource = require('../models/resource');
 
 function authorize(resourceType) {
     return function (req, res, next) {
@@ -21,8 +21,8 @@ function authorize(resourceType) {
             resourceId: req.params.id,
             resourceType: resourceType
         };
-        Permission.findOne(query, function (err, permission) {
-            if (permission) {
+        Resource.findOne(query, function (err, allowed) {
+            if (allowed) {
                 return next();
             }
             error();
