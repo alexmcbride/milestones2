@@ -24,23 +24,24 @@ db.on('error', console.error.bind(console, 'Connection error:'));
 
 // session setup
 var sess = {
-  secret: 'secret key',
+  secret: 'secret key', // TODO: make this correct
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // dont' create session until needed
   cookie: {},
   store: new MongoStore({ 
-    mongooseConnection: db,
+    mongooseConnection: db, // use existing connect
     autoRemove: 'interval',
-    autoRemoveInterval: 60  // Minutes
+    autoRemoveInterval: 60  // minutes
   })
 };
 if (app.get('env' === 'production')) {
+  // In prod set these options
   app.set('trust proxy', 1);
   sess.cookie.secure = true;
 }
 app.use(session(sess));
 
-// add middlewear
+// add middlewear for handling users and flash messages
 app.use(function (req, res, next) {
   var userManager = new UserManager(req.session);
   req.userManager = userManager;
