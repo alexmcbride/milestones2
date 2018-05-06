@@ -7,21 +7,26 @@ function authorize(resourceType) {
             res.redirect('/users/login');
         };
 
-        if (req.userManager.loggedIn()) {
-            if (resourceType) {
-                var query = {
-                    userId: req.userManager.userId(),
-                    resourceId: req.params.id,
-                    resourceType: resourceType
-                };
-                Permission.findOne(query, function (err, permission) {
-                    if (permission) next();
-                    else error();
-                });
-            }
-            else next();
+        if (!req.userManager.loggedIn()) {
+            return error();
         }
-        else error();
+
+        // Only do permission lookup if resourceType specified.
+        if (!resourceType) {
+            return next();
+        }
+
+        var query = {
+            userId: req.userManager.userId(),
+            resourceId: req.params.id,
+            resourceType: resourceType
+        };
+        Permission.findOne(query, function (err, permission) {
+            if (permission) {
+                return next();
+            }
+            error();
+        });
     };
 }
 
