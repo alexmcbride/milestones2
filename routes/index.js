@@ -5,7 +5,8 @@ var Project = require('../models/project');
 /* GET home page. */
 router.get('/', function (req, res) {
     if (req.userManager.loggedIn()) {
-        Project.find(function (err, projects) {
+        var userId = req.userManager.userId();
+        Project.find({ userId: userId }, function (err, projects) {
             if (err) throw err;
             res.render('projects/index', { projects: projects });
         });

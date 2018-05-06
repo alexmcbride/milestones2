@@ -27,4 +27,8 @@ UserManager.prototype.user = function () {
     return this.session.user;
 }
 
+UserManager.prototype.userId = function() {
+    return this.session.user._id;
+}
+
 module.exports = UserManager;

@@ -1,7 +1,7 @@
 if flashMessages.hasMessages() 
     div.flash-messages(role='alert')
         each message in flashMessages.getMessages()
-            div.alert.alert-success
+            div.alert(class='alert-' + message.type)
                 | #{message.message}
                 button.close(type="button", data-dismiss="alert", aria-label="Close")
                     span(aria-hidden="true") &times;

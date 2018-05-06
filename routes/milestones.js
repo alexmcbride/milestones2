@@ -1,16 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var Milestone = require('../models/milestone');
+var authorize = require('../utils/authorize');
 
-router.get('/create/:projectId', function (req, res) {
-
+router.get('/create/:projectId', authorize, function (req, res) {
     var milestone = new Milestone({
         projectId: req.params.projectId, 
         due: new Date()});
     res.render('milestones/create', { milestone: milestone });
 });
 
-router.post('/create/:projectId', function (req, res) {
+router.post('/create/:projectId', authorize, function (req, res) {
     var projectId = req.params.projectId;
     var milestone = new Milestone({
         projectId: projectId, 
@@ -22,6 +22,7 @@ router.post('/create/:projectId', function (req, res) {
             res.render('milestones/create', { milestone: milestone, errors: err.errors });
         }
         else {
+            res.flashMessages.add('Milestone created', 'success');
             res.redirect('/projects/' + projectId);
         }        
     });
