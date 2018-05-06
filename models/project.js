@@ -26,7 +26,7 @@ projectSchema.virtual('createdPretty').get(function() {
     return date.charAt(0).toUpperCase() + date.substr(1);
 });
 
-projectSchema.methods.createProject = function(done) {
+projectSchema.methods.create = function(done) {
     // Set this here to avoid 'this' scope isues.
     var options = {
         resourceType: 'project',

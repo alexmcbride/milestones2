@@ -15,7 +15,7 @@ router.post('/create', authorize(), function (req, res, next) {
         userId: req.userManager.userId(),
         name: req.body.name
     });
-    project.createProject(function (err) {
+    project.create(function (err) {
         if (err) {
             res.render('projects/create', { project: project, errors: err.errors });
         }
