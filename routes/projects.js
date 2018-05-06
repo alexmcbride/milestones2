@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Project = require('../models/project');
 var Milestone = require('../models/milestone');
-var Permission = require('../models/permission');
 var authorize = require('../utils/authorize');
 
 /* GET create project form */
@@ -16,24 +15,13 @@ router.post('/create', authorize(), function (req, res, next) {
         userId: req.userManager.userId(),
         name: req.body.name
     });
-    project.save(function (err) {
+    project.createProject(function (err) {
         if (err) {
             res.render('projects/create', { project: project, errors: err.errors });
         }
         else {
-            var permission = new Permission({
-                resourceType: 'project',
-                resourceId: project._id,
-                userId: req.userManager.userId(),
-                permissionType: 'owner'
-            });
-            permission.save(function(err) {
-                if (err) {
-                    return console.log(err);
-                }
-                res.flashMessages.add('Project created', 'success');
-                res.redirect('/');
-            });
+            res.flashMessages.add('Project created', 'success');
+            res.redirect('/');
         }
     });
 });
