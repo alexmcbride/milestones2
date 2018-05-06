@@ -16,6 +16,7 @@ router.post('/create', function (req, res, next) {
             res.render('projects/create', { project: project, errors: err.errors });
         }
         else {
+            res.flashMessages.add('Project created', 'success');
             res.redirect('/');
         }
     });
@@ -41,6 +42,7 @@ router.post('/edit/:id', function (req, res) {
                 res.render('projects/edit', { project: project, errors: err.errors });
             }
             else {
+                res.flashMessages.add('Project edited', 'success');
                 res.redirect('/');
             }
         });
@@ -62,6 +64,7 @@ router.post('/delete/:id', function (req, res) {
         if (err) res.status(500).end(err);
         if (!project) res.status(404).end();
         project.remove();
+        res.flashMessages.add('Project deleted', 'success');
         res.redirect('/');
     });
 });

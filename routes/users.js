@@ -32,6 +32,7 @@ router.post('/login', function (req, res) {
             }
 
             req.userManager.login(user);
+            res.flashMessages.add('You are logged in', 'success');
             res.redirect('/');
         });
     });
@@ -53,15 +54,20 @@ router.post('/register', function (req, res) {
             res.render('users/register', { user: user, errors: err.errors });
         }
         else {
+            res.flashMessages.add('You have successfully registered', 'success');
             res.redirect('/users/login');
         }
     });
 });
 
+router.get('/logout', function (req, res) {
+    res.render('users/logout');
+});
+
 router.post('/logout', function (req, res) {
-    req.userManager.logout(function () {
-        res.redirect('/');
-    });
+    req.userManager.logout();
+    res.flashMessages.add('You are logged out', 'success');
+    res.redirect('/');
 });
 
 module.exports = router;

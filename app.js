@@ -7,6 +7,7 @@ var sassMiddleware = require('node-sass-middleware');
 var mongoose = require('mongoose');
 var session = require('express-session');
 var UserManager = require('./utils/user-manager');
+var FlashMessages = require('./utils/flash-messages');
 
 var indexRouter = require('./routes/index');
 var projectsRouter = require('./routes/projects');
@@ -19,9 +20,6 @@ var app = express();
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
-db.once('open', function () {
-  console.log('DB connected!')
-});
 
 // session setup
 var sess = {
@@ -36,13 +34,17 @@ if (app.get('env' === 'production')) {
 }
 app.use(session(sess));
 
-// user manager middlewear
+// add middlewear
 app.use(function(req, res, next) {
   var userManager = new UserManager(req.session);
   req.userManager = userManager;
 
-  // make user manager available in views
+  var flashMessages = new FlashMessages(req.session);
+  res.flashMessages = flashMessages;
+
+  // make these available in views
   app.locals.userManager = userManager
+  app.locals.flashMessages = flashMessages;
 
   next();
 });

@@ -1,27 +1,27 @@
 extends ../layout
 
 block content
-    div.row.justify-content-center
-        div.col-6
-            h2 Register
-            p Register as a new user
-            form(method='post')
-                include ../validation-errors.pug
-                div.form-group
-                    label(for='username') Username *
-                    input.form-control(type='text', name='username' id='username', value=user.username)
-                div.form-group
-                    label(for='email') Email *
-                    input.form-control(type='email', name='email', id='email', value=user.email)
-                div.form-group
-                    label(for='password') Password *
-                    input.form-control(type='password', name='password', id='password')         
-                div.form-group
-                    label(for='passwordConfirm') Confirm Password*
-                    input.form-control(type='password', name='passwordConfirm', id='passwordConfirm')                       
-                p: em
-                    |* Required
-                div
-                    button.btn.btn-primary(type='submit') Register
-                    |&nbsp;|&nbsp;
-                    a(href='/users/login') Login
+  div.row.justify-content-center
+    div.col-6
+      h2 Register
+      p Register as a new user
+      form(method='post')
+        include ../validation-errors.pug
+        div.form-group
+          label(for='username') Username &#42;
+          input.form-control(type='text', name='username' id='username', value=user.username)
+        div.form-group
+          label(for='email') Email &#42;
+          input.form-control(type='email', name='email', id='email', value=user.email)
+        div.form-group
+          label(for='password') Password &#42;
+          input.form-control(type='password', name='password', id='password')         
+        div.form-group
+          label(for='passwordConfirm') Confirm Password &#42;
+          input.form-control(type='password', name='passwordConfirm', id='passwordConfirm')                       
+        p: em.
+          &#42; Required
+        div
+          button.btn.btn-primary(type='submit') Register
+          |&nbsp;|&nbsp;
+          a(href='/users/login') Login
