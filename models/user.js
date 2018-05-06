@@ -5,11 +5,33 @@ var userSchema = mongoose.Schema({
     username: {
         type: String,
         required: [true, 'Username cannot be empty'],
-        length: 1
+        length: 1,
+        validate: {
+            isAsync: true,
+            validator: function (v, cb) {
+                User.findOne({ username: v }, function (err, user) {
+                    cb(user == null, 'Username already exists');
+                });
+            }
+        }
     },
     email: {
         type: String,
-        required: [true, 'Email cannot be empty']
+        index: true,
+        unique: true,
+        required: [true, 'Email cannot be empty'],
+        validate: {
+            isAsync: true,
+            validator: function (v, cb) {
+                var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+                if (!emailRegex.test(v)) {
+                    cb(false, 'Email is not valid');
+                }
+                User.findOne({ email: v }, function (err, user) {
+                    cb(user == null, 'Email already exists');
+                });
+            },
+        }
     },
     passwordHash: String,
     joined: {
