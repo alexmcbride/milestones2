@@ -75,17 +75,4 @@ router.post('/delete/:id', authorize('project'), function (req, res) {
     });
 });
 
-/* GET single project */
-router.get('/:id', authorize('project'), function (req, res) {
-    var id = req.params.id;
-    Project.findById(id, function (err, project) {
-        if (err) return res.status(500).end(err);
-        if (!project) return res.status(404).end();
-        Milestone.find({ projectId: id }, function (err, milestones) {
-            if (err) res.status(500).end(err);
-            res.render('projects/details', { project: project, milestones: milestones });
-        });
-    });
-});
-
 module.exports = router;

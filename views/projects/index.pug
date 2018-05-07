@@ -16,7 +16,7 @@ block content
         each project in projects
           tr
             td
-              a(href='/projects/' + project._id)= project.name
+              a(href='/milestones/' + project._id)= project.name
             td= project.createdPretty
             td
               a(href='/projects/edit/' + project._id) Edit

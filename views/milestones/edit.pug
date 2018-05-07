@@ -1,13 +1,12 @@
 extends ../layout
 
 block scripts
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment-with-locales.min.js')
   script(src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js")
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css")
 
 block content
-  h2 Create Milestone
-  p Enter details for the new milestone
+  h2 Edit Milestone
+  p Edit details for the milestone
   form(method='post')
     include ../validation-errors.pug
     div.form-group
@@ -20,14 +19,24 @@ block content
         div(class='input-group-append', data-target='#due', data-toggle='datetimepicker')
           div.input-group-text
             i.fa.fa-calendar
+    div.form-group
+      label(for='completed') Completed
+      div(class='input-group date', id='completed', data-target-input='nearest')
+        input(class='form-control datetimepicker-input', name='completed', type='text', data-target='#completed', value=milestone.completed)
+        div(class='input-group-append', data-target='#completed', data-toggle='datetimepicker')
+          div.input-group-text
+            i.fa.fa-calendar            
     div
-        button.btn.btn-primary(type='submit') Create Milestone
-        |  | 
+        button.btn.btn-primary(type='submit') Edit Milestone
+        |  |  
         a(href='/milestones/' + milestone.projectId) Go back
   script.
     $(function() {
       $('#due').datetimepicker({
         format: 'YYYY-MM-DD HH:mm'
       });
+      $('#completed').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+      });      
     });
     
