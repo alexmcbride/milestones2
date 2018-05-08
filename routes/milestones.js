@@ -41,7 +41,7 @@ router.post('/create/:id', authorize('project'), function (req, res) {
             res.render('milestones/create', { milestone: milestone, errors: err.errors });
         }
         else {
-            res.flashMessages.add('Milestone created', 'success');
+            res.flashMessages.add("Milestone '" + milestone.name + "' created", 'success');
             res.redirect('/milestones/' + projectId);
         }
     });
@@ -73,7 +73,7 @@ router.post('/edit/:id', authorize('milestone'), function (req, res) {
             res.render('milestones/edit', { milestone: milestone, errors: err.errors });
         }
         else {
-            res.flashMessages.add('Milestone edited', 'success');
+            res.flashMessages.add("Milestone '" + milestone.name + "' edoted", 'success');
             res.redirect('/milestones/' + milestone.projectId);
         }
     });
@@ -96,7 +96,7 @@ router.post('/delete/:id', function(req, res) {
         }
 
         milestone.remove();
-        res.flashMessages.add('Removed milestone', 'success');
+        res.flashMessages.add("Milestone '" + milestone.name + "' deleted", 'success');
         res.redirect('/milestones/' + milestone.projectId);
     });
 });
