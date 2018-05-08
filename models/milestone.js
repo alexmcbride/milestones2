@@ -54,11 +54,13 @@ milestoneSchema.virtual('isComplete').get(function () {
 
 milestoneSchema.virtual('status').get(function() {
     if (this.isLate) {
-        return 'late';
+        return 'overdue';
     }
+
     if (this.isComplete) {
         return 'complete';
     }
+
     return 'pending';
 });
 

@@ -1,9 +1,11 @@
 extends ../layout
 
 block content
-  h2 Projects
-  p
-    a(href='/projects/create') Create New Project
+  div.row.content-header
+    div.col
+      h2 Projects
+    div.col.text-right
+      a.btn.btn-primary(href='/projects/create', role='button') Create New Project
   div.table-responsive
     table.table
       thead
@@ -18,7 +20,11 @@ block content
             td
               a(href='/milestones/' + project._id)= project.name
             td= project.createdPretty
-            td
-              a(href='/projects/edit/' + project._id) Edit
-            td
-              a(href='/projects/delete/' + project._id) Delete
+            td.text-right
+              a(href='/projects/edit/' + project._id)
+                i.far.fa-edit 
+                |  Edit
+            td.text-right
+              a(href='/projects/delete/' + project._id)
+                i.far.fa-trash-alt 
+                |  Delete

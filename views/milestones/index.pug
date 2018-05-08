@@ -1,35 +1,36 @@
 extends ../layout
 
 block content
-  div.row
+  div.row.content-header
     div.col
       h2.milestone-title #{project.name}
     div.col.text-right
       a(href='#')
         |Share with Friends 
         i.far.fa-share-square
-  p
-    a(href='/milestones/create/' + project._id) Create Milestone
+  p: a.btn.btn-primary(href='/milestones/create/' + project._id) Create New Milestone
   div.milestones
+    unless milestones.length
+      br
+      p.text-center: em: |There are no milestones
     each milestone in milestones
-      div.milestone-item: div.container
-        div.row
-          div.col-1
-            i.fas.fa-question-circle.milestone-icon
-          div.col
-            div.row
-              div.col
-                h3= milestone.name
-              div.col-2.text-right
-                a(href='/milestones/edit/' + milestone._id)
-                  i.far.fa-edit
-                | 
-                a(href='/milestones/delete/' + milestone._id)
-                  i.far.fa-trash-alt                  
-            div.row
-              div.col
-                | Due #{milestone.duePretty}
-              div.col-2.text-right
-                | Status: #{milestone.status}
+      div.milestone-item: div.container: div.row
+        div.col-1
+          i.fas.fa-question-circle.milestone-icon
+        div.col
+          div.row
+            div.col
+              h3= milestone.name
+            div.col-2.text-right
+              a(href='/milestones/edit/' + milestone._id)
+                i.far.fa-edit
+              |&nbsp;&nbsp;
+              a(href='/milestones/delete/' + milestone._id)
+                i.far.fa-trash-alt                  
+          div.row
+            div.col
+              | Due #{milestone.duePretty}
+            div.col-2.text-right
+              | Status: #{milestone.status}
 
 
