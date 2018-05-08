@@ -13,7 +13,7 @@ router.get('/:id', authorize('project'), function (req, res) {
             return res.status(404).end();
         }
 
-        Milestone.find({ projectId: id }, function (err, milestones) {
+        Milestone.find({ projectId: id }).sort('due').exec(function (err, milestones) {
             res.render('milestones/index', { project: project, milestones: milestones });
         });
     });
@@ -75,6 +75,28 @@ router.post('/edit/:id', authorize('milestone'), function (req, res) {
             res.flashMessages.add('Milestone edited', 'success');
             res.redirect('/milestones/' + milestone.projectId);
         }
+    });
+});
+
+router.get('/delete/:id', function(req, res) {
+    Milestone.findById(req.params.id, function (err, milestone) {
+        if (milestone == null) {
+            return res.status(404).end();
+        }
+
+        res.render('milestones/delete', { milestone: milestone });
+    });
+});
+
+router.post('/delete/:id', function(req, res) {
+    Milestone.findById(req.params.id, function (err, milestone) {
+        if (milestone == null) {
+            return res.status(404).end();
+        }
+
+        milestone.remove();
+        res.flashMessages.add('Removed milestone', 'success');
+        res.redirect('/milestones/' + milestone.projectId);
     });
 });
 

@@ -1,13 +1,35 @@
 extends ../layout
 
 block content
-  h2= project.name
+  div.row
+    div.col
+      h2.milestone-title #{project.name}
+    div.col.text-right
+      a(href='#')
+        |Share with Friends 
+        i.far.fa-share-square
   p
     a(href='/milestones/create/' + project._id) Create Milestone
-  h3 Milestones
-  ul.list-group
+  div.milestones
     each milestone in milestones
-      li.list-group-item
-        |#{milestone.name} Due #{milestone.duePretty} 
-        a(href='/milestones/edit/' + milestone._id) Edit
+      div.milestone-item: div.container
+        div.row
+          div.col-1
+            i.fas.fa-question-circle.milestone-icon
+          div.col
+            div.row
+              div.col
+                h3= milestone.name
+              div.col-2.text-right
+                a(href='/milestones/edit/' + milestone._id)
+                  i.far.fa-edit
+                | 
+                a(href='/milestones/delete/' + milestone._id)
+                  i.far.fa-trash-alt                  
+            div.row
+              div.col
+                | Due #{milestone.duePretty}
+              div.col-2.text-right
+                | Status: #{milestone.status}
+
 

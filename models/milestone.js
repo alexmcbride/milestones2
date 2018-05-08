@@ -52,6 +52,16 @@ milestoneSchema.virtual('isComplete').get(function () {
     return this.completed != null
 });
 
+milestoneSchema.virtual('status').get(function() {
+    if (this.isLate) {
+        return 'late';
+    }
+    if (this.isComplete) {
+        return 'complete';
+    }
+    return 'pending';
+});
+
 var Milestone = mongoose.model('Milestone', milestoneSchema);
 
 module.exports = Milestone;
