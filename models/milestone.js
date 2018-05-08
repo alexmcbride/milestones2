@@ -21,23 +21,27 @@ var milestoneSchema = mongoose.Schema({
 });
 
 milestoneSchema.methods.create = function(done) {
-    var params = {
-        userId: this.userId,
-        resourceId: this._id,
-        resourceType: 'milestone',
-        accessType: 'owner'
-    };
-
     this.save(function(err) {
         if (err) {
             return done(err);
         }
 
-        var resource = new Resource(params);
+        var resource = new Resource({
+            userId: this.userId,
+            resourceId: this._id,
+            resourceType: 'milestone',
+            accessType: 'owner'
+        });
         resource.save(function(err) {
             done(err);
         });
-    });
+    }.bind(this));
+}
+
+milestoneSchema.methods.delete = function(done) {
+    this.remove();
+    
+    Resource.remove({ resourceId: this._id, resourceType: 'milestone' }, done);
 }
 
 milestoneSchema.virtual('duePretty').get(function() {

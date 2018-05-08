@@ -19,6 +19,11 @@ var projectSchema = mongoose.Schema({
         required: true,
         default: Date.now
     },
+    milestoneCount: {
+        type: Number,
+        required: true,
+        default: 0
+    }
 });
 
 projectSchema.virtual('createdPretty').get(function () {
@@ -27,33 +32,49 @@ projectSchema.virtual('createdPretty').get(function () {
 });
 
 projectSchema.methods.create = function (done) {
-    // Set here to avoid 'this' scope isues.
-    var options = {
-        resourceType: 'project',
-        resourceId: this._id,
-        userId: this.userId,
-        permissionType: 'owner'
-    };
-
     this.save(function (err) {
         if (err) {
             return done(err);
         }
 
         // Add a resource for this project
-        var resource = new Resource(options);
-        resource.save(function (err) {
-            done(err);
+        var resource = new Resource( {
+            resourceType: 'project',
+            resourceId: this._id,
+            userId: this.userId,
+            permissionType: 'owner'
         });
-    })
+        resource.save(done);
+    }.bind(this));
 };
+
+projectSchema.methods.addMilestone = function (milestone, done) {
+    milestone.projectId = this._id;
+    milestone.create(function (err) {
+        if (err) {
+            return done(err);
+        }
+
+        this.milestoneCount++;
+        this.save(done);
+    }.bind(this));
+}
+
+projectSchema.methods.removeMilestone = function (milestone, done) {
+    milestone.delete(function (err) {
+        if (err) {
+            return done(err);
+        }
+
+        this.milestoneCount--;
+        this.save(done);
+    }.bind(this));
+}
 
 projectSchema.methods.delete = function (done) {
     this.remove();
 
-    Resource.remove({ resourceId: this._id, resourceType: 'project' }, function (err) {
-        done(err);
-    });
+    Resource.remove({ resourceId: this._id, resourceType: 'project' }, done);
 };
 
 var Project = mongoose.model('Project', projectSchema);

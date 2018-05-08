@@ -30,20 +30,26 @@ router.get('/create/:id', authorize('project'), function (req, res) {
 
 router.post('/create/:id', authorize('project'), function (req, res) {
     var projectId = req.params.id;
-    var milestone = new Milestone({
-        userId: req.userManager.userId(),
-        projectId: projectId,
-        name: req.body.name,
-        due: req.body.due
-    });
-    milestone.create(function (err) {
-        if (err) {
-            res.render('milestones/create', { milestone: milestone, errors: err.errors });
+    Project.findById(projectId, function(err, project) {
+        if (project == null) {
+            return res.status(404).end();
         }
-        else {
-            res.flashMessages.add("Milestone '" + milestone.name + "' created", 'success');
-            res.redirect('/milestones/' + projectId);
-        }
+
+        var milestone = new Milestone({
+            userId: req.userManager.userId(),
+            projectId: projectId,
+            name: req.body.name,
+            due: req.body.due
+        });    
+        project.addMilestone(milestone, function(err) {
+            if (err) {
+                res.render('milestones/create', { milestone: milestone, errors: err.errors });
+            }
+            else {
+                res.flashMessages.add("Milestone '" + milestone.name + "' created", 'success');
+                res.redirect('/milestones/' + projectId);
+            }
+        });
     });
 });
 
@@ -95,9 +101,12 @@ router.post('/delete/:id', function(req, res) {
             return res.status(404).end();
         }
 
-        milestone.remove();
-        res.flashMessages.add("Milestone '" + milestone.name + "' deleted", 'success');
-        res.redirect('/milestones/' + milestone.projectId);
+        Project.findById(milestone.projectId, function(err, project) {
+            project.removeMilestone(milestone, function(err) {
+                res.flashMessages.add("Milestone '" + milestone.name + "' deleted", 'success');
+                res.redirect('/milestones/' + milestone.projectId);
+            })
+        });
     });
 });
 

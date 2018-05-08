@@ -12,6 +12,7 @@ block content
         tr
           th Name
           th Created
+          th Milestones
           th
           th
       tbody
@@ -20,6 +21,7 @@ block content
             td
               a(href='/milestones/' + project._id)= project.name
             td= project.createdPretty
+            td= project.milestoneCount
             td.text-right
               a(href='/projects/edit/' + project._id)
                 i.far.fa-edit 
