@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
 var Project = require('../models/project');
 var Milestone = require('../models/milestone');
@@ -20,10 +21,10 @@ router.get('/:id', authorize('project'), function (req, res) {
 });
 
 router.get('/create/:id', authorize('project'), function (req, res) {
-    var milestone = {
+    var milestone = new Milestone({
         projectId: req.params.id,
-        due: new Date()
-    };
+        due: moment()
+    });
     res.render('milestones/create', { milestone: milestone });
 });
 
