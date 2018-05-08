@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var moment = require('moment');
-var Resource = require('../models/resource');
+var Resource = require('./resource');
+var Milestone = require('./milestone');
 
 var projectSchema = mongoose.Schema({
     userId: String,
@@ -38,7 +39,7 @@ projectSchema.methods.create = function (done) {
         }
 
         // Add a resource for this project
-        var resource = new Resource( {
+        var resource = new Resource({
             resourceType: 'project',
             resourceId: this._id,
             userId: this.userId,
