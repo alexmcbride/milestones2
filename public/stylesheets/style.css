@@ -1,5 +1,5 @@
 .milestone-title {
-  font-size: 22px; }
+  font-size: 28px; }
 
 .milestone-item {
   margin-top: 20px;
@@ -7,11 +7,12 @@
   padding-left: 0px;
   border: 1px solid #ccc; }
   .milestone-item .milestone-icon {
-    font-size: 64px; }
+    font-size: 58px;
+    margin-top: 4px; }
   .milestone-item .milestone-late {
     color: red; }
   .milestone-item .milestone-pending {
-    color: #ffff00; }
+    color: #ffcd00; }
   .milestone-item .milestone-complete {
     color: #339933; }
 

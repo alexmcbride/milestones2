@@ -5,10 +5,10 @@ block content
     div.col
       h2.milestone-title #{project.name}
     div.col.text-right
-      a(href='#')
+      //-a(href='#')
         |Share with Friends 
         i.far.fa-share-square
-  p: a.btn.btn-primary(href='/milestones/create/' + project._id) Create New Milestone
+      a.btn.btn-primary(href='/milestones/create/' + project._id) Create New Milestone
   div.milestones
     unless milestones.length
       br
