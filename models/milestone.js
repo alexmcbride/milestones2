@@ -44,6 +44,10 @@ milestoneSchema.virtual('duePretty').get(function() {
     return moment(this.due).fromNow();
 });
 
+milestoneSchema.virtual('completedPretty').get(function() {
+    return moment(this.completed).fromNow();
+});
+
 milestoneSchema.virtual('isLate').get(function() {
     return this.completed == null && moment(this.due).isBefore(new Date());
 });

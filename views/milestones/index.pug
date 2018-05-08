@@ -16,7 +16,12 @@ block content
     each milestone in milestones
       div.milestone-item: div.container: div.row
         div.col-1
-          i.fas.fa-question-circle.milestone-icon
+          if milestone.isLate
+            i.fas.fa-exclamation-circle.milestone-icon.milestone-late
+          else if milestone.isComplete
+            i.fas.fa-check-circle.milestone-icon.milestone-complete
+          else
+            i.fas.fa-question-circle.milestone-icon.milestone-pending
         div.col
           div.row
             div.col
@@ -29,7 +34,10 @@ block content
                 i.far.fa-trash-alt                  
           div.row
             div.col
-              | Due #{milestone.duePretty}
+              if milestone.isComplete
+                | Completed #{milestone.completedPretty}
+              else
+                | Due #{milestone.duePretty}
             div.col-2.text-right
               | Status: #{milestone.status}
 
