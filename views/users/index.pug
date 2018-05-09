@@ -1,7 +1,18 @@
 extends ../layout
 
 block content
-    h2 Users
-    ul
-        each user in users
-            li #{user.username}, #{user.joined}
+  div.row.justify-content-center
+    div.col-6
+        h2 User Account
+        form(method='post')
+            include ../validation-errors.pug
+            div.form-group
+                label(for='username') Username
+                input.form-control(type='text', name='username', id='username', value=user.username)            
+            div.form-group
+                label(for='email') Email
+                input.form-control(type='text', name='email', id='email', value=user.email)                    
+            div
+                button.btn.btn-primary(type='submit') Edit User 
+                |  | 
+                a(href='/users/reset-password') Reset Password
