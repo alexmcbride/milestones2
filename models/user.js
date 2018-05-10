@@ -77,7 +77,7 @@ userSchema.path('username').validate({
         }
         else {
             User.findOne({ username: v }, function (err, user) {
-                isvalid(user ? true : false);
+                isvalid(user ? false : true);
             });
         }
     },
