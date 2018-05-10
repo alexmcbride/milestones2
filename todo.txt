@@ -1,5 +1,2 @@
-* Milestone CRUD
 * Unit tests
-* Users (validation)
-* Auth in routes
-* Relations (users > projects > milestones)
+* Sharing

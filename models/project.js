@@ -43,7 +43,7 @@ projectSchema.methods.create = function (done) {
             resourceType: 'project',
             resourceId: this._id,
             userId: this.userId,
-            permissionType: 'owner'
+            accessType: 'owner'
         });
         resource.save(done);
     }.bind(this));
