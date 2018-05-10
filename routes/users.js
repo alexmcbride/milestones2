@@ -4,9 +4,26 @@ var User = require('../models/user');
 var authorize = require('../utils/authorize');
 
 /* GET users listing. */
-router.get('/', function (req, res) {
-    User.find(function (err, users) {
-        res.render('users/index', { users: users });
+router.get('/', authorize(), function (req, res) {
+    User.find(function (err, user) {
+        res.render('users/index', { user: req.userManager.user() });
+    });
+});
+
+router.post('/', authorize(), function (req, res) {
+    User.findById(req.userManager.userId(), function (err, user) {
+        user.username = req.body.username;
+        user.email = req.body.email;
+        user.save(function(err) {
+            if (err) {
+                res.render('users/index', { user: user, errors: err.errors });
+            }
+            else {
+                req.userManager.login(user);
+                res.flashMessages.add('User details edited', 'success');
+                res.redirect('/users');
+            }
+        });
     });
 });
 
