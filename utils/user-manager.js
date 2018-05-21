@@ -4,11 +4,8 @@ function UserManager(session) {
     this.session = session;
 }
 
-UserManager.prototype.auth = function (user, password, func) {
-    bcrypt.compare(password, user.passwordHash, function (err, res) {
-        if (err) return console.log(err);
-        func(res);
-    });
+UserManager.prototype.auth = function (user, password, done) {
+    bcrypt.compare(password, user.passwordHash, done);
 };
 
 UserManager.prototype.login = function (user) {

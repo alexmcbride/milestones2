@@ -1,4 +1,5 @@
 extends ../layout
+include ../form-helpers
 
 block content
     div.row.justify-content-center
@@ -8,12 +9,8 @@ block content
             form(method='post')
                 if error
                     div.alert.alert-danger= error
-                div.form-group
-                    label(for='email') Email
-                    input.form-control(type='email', name='email', id='email', value=email)
-                div.form-group
-                    label(for='password') Password
-                    input.form-control(type='password', name='password', id='password')                        
+                +form_email('email', email)
+                +form_password('password')                     
                 div
                     button.btn.btn-primary(type='submit') Login
                     |&nbsp;|&nbsp;

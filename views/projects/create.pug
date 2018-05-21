@@ -1,13 +1,12 @@
 extends ../layout
+include ../form-helpers
 
 block content
   h2 Create Project
   p Enter a name to create a new project
   form(method='post')
-    include ../validation-errors.pug
-    div.form-group
-        label(for='name') Name
-        input.form-control(type='text', name="name" id='name', value=project.name)
+    +form_errors
+    +form_text('name', project.name)
     div
         button.btn.btn-primary(type='submit') Create
         |&nbsp;|&nbsp;

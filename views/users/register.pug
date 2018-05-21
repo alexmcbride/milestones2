@@ -1,4 +1,5 @@
 extends ../layout
+include ../form-helpers
 
 block content
   div.row.justify-content-center
@@ -6,19 +7,11 @@ block content
       h2 Register
       p Register as a new user
       form(method='post')
-        include ../validation-errors.pug
-        div.form-group
-          label(for='username') Username &#42;
-          input.form-control(type='text', name='username' id='username', value=user.username)
-        div.form-group
-          label(for='email') Email &#42;
-          input.form-control(type='text', name='email', id='email', value=user.email)
-        div.form-group
-          label(for='password') Password &#42;
-          input.form-control(type='password', name='password', id='password')         
-        div.form-group
-          label(for='passwordConfirm') Confirm Password &#42;
-          input.form-control(type='password', name='passwordConfirm', id='passwordConfirm')                       
+        +form_errors
+        +form_text('username', user.username)
+        +form_email('email', user.email)
+        +form_password('password', user.password)
+        +form_password('passwordConfirm', user.passwordConfirm)                
         p: em.
           &#42; Required
         div

@@ -14,7 +14,7 @@ router.post('/', authorize(), function (req, res) {
     User.findById(req.userManager.userId(), function (err, user) {
         user.username = req.body.username;
         user.email = req.body.email;
-        user.save(function(err) {
+        user.save(function (err) {
             if (err) {
                 res.render('users/index', { user: user, errors: err.errors });
             }
@@ -46,14 +46,19 @@ router.post('/login', function (req, res) {
             return error();
         }
 
-        req.userManager.auth(req.body.password, function (result) {
-            if (!result) {
-                return error();
+        req.userManager.auth(user, req.body.password, function (err, result) {
+            if (err) {
+                return console.log(err);
             }
 
-            req.userManager.login(user);
-            res.flashMessages.add('You are logged in', 'success');
-            res.redirect('/');
+            if (result) {
+                req.userManager.login(user);
+                res.flashMessages.add('You are logged in', 'success');
+                res.redirect('/');
+            }
+            else {
+                error();
+            }
         });
     });
 });

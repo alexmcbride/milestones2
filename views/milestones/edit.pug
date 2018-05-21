@@ -1,4 +1,5 @@
 extends ../layout
+include ../form-helpers
 
 block scripts
   script(src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js")
@@ -8,24 +9,10 @@ block content
   h2 Edit Milestone
   p Edit details for the milestone
   form(method='post')
-    include ../validation-errors.pug
-    div.form-group
-      label(for='name') Name
-      input.form-control(type='text', name="name", id='name', value=milestone.name)
-    div.form-group
-      label(for='due') Due
-      div(class='input-group date', id='due', data-target-input='nearest')
-        input(class='form-control datetimepicker-input', name='due', type='text', data-target='#due', value=milestone.due)
-        div(class='input-group-append', data-target='#due', data-toggle='datetimepicker')
-          div.input-group-text
-            i.fa.fa-calendar
-    div.form-group
-      label(for='completed') Completed
-      div(class='input-group date', id='completed', data-target-input='nearest')
-        input(class='form-control datetimepicker-input', name='completed', type='text', data-target='#completed', value=milestone.completed)
-        div(class='input-group-append', data-target='#completed', data-toggle='datetimepicker')
-          div.input-group-text
-            i.fa.fa-calendar            
+    +form_errors
+    +form_text('name', milestone.name)
+    +form_date('due', milestone.due)
+    +form_date('completed', milestone.completed)           
     div
         button.btn.btn-primary(type='submit') Edit Milestone
         |  |  

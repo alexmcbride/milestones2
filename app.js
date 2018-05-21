@@ -18,7 +18,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // mongoose setup
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/milestones2');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 

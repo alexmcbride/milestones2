@@ -79,7 +79,7 @@ router.post('/edit/:id', authorize('milestone'), function (req, res) {
             res.render('milestones/edit', { milestone: milestone, errors: err.errors });
         }
         else {
-            res.flashMessages.add("Milestone '" + milestone.name + "' edoted", 'success');
+            res.flashMessages.add("Milestone '" + milestone.name + "' edited", 'success');
             res.redirect('/milestones/' + milestone.projectId);
         }
     });

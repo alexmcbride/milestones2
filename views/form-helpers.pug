@@ -1,0 +1,38 @@
+mixin form_errors()
+  if errors
+    div.alert.alert-danger
+      h5 Errors
+      ul
+        each error in errors
+          li= error.message  
+
+mixin form_input(type, name, value)
+  div.form-group
+    label.text-capitalize(for=name)= name
+    if errors && errors[name]
+      -var error_class = 'is-invalid'
+    input.form-control(type=type, name=name id=name, value=value, class=error_class)
+    if errors && errors[name]
+      span.invalid-feedback= errors[name] 
+
+mixin form_text(name, value)
+  +form_input('text', name, value)
+
+mixin form_email(name, value)
+  +form_input('email', name, value)
+
+mixin form_password(name, value)
+  +form_input('password', name, value)
+
+mixin form_date(name, value)
+  div.form-group
+    label.text-capitalize(for=name)= name
+    if errors && errors[name]
+      -var error_class = 'is-invalid'
+    div(class='input-group date', id=name, data-target-input='nearest')
+      input(class='form-control datetimepicker-input', name=name, type='text', data-target='#'+name, value=value, class=error_class)
+      div(class='input-group-append', data-target='#'+name, data-toggle='datetimepicker')
+        div.input-group-text
+          i.fa.fa-calendar
+      if errors && errors[name]
+          div.invalid-feedback= errors[name]           
