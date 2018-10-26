@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo service mongodb start
+#sudo service mongod start
+sudo mongod --dbpath ~/data/db
